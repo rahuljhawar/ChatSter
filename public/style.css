@@ -1,0 +1,159 @@
+body{
+	margin:0;
+	padding: 0;
+
+}
+.chatbox{
+
+	width: 79%;
+	height: 100vh;
+	display: inline-flex;
+	justify-content: center;
+	
+	}
+.users{
+	
+	float:right;
+	width: 20.5%;
+	height: 100vh;
+	border-left: 5px solid black;
+
+}
+.users .chathead{
+	background-color: #66ff66;
+	border-bottom: 2px solid black;
+	height:10vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 15px;
+	font-family: "Segoe UI", Arial, sans-serif;	
+	letter-spacing: 2px;
+
+
+}
+.chatster{
+	width:80%;
+	height: 90vh;
+	position: relative;
+	margin-top: 9.3vh;
+	border:1px solid grey;
+}
+.header{
+	position: absolute;
+	top:0;
+	width: 100%;
+	height:7%;
+	background-color: red;
+}
+.controls{
+	
+
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 10%;
+
+}
+.message input{
+	position: absolute;
+	width:85%;
+	height: 95%;
+	font-size: 20px;
+	background-color: #eee;
+	
+}
+.send{
+	
+	float: right;
+	height: 100%;
+	width: 15%;
+	
+
+}
+.send img{
+	width:100%;
+	height: 100%;
+}
+.messages{
+	margin-top: 6%;
+
+}
+.messages ul{
+	max-height: 70vh;
+	overflow-y: auto;
+}
+.messages ul li{
+	display:table;
+	margin-top: 15px;
+	list-style: none;
+	padding: 10px 20px 10px 20px;
+	background-color: #eee;
+	border-radius: 10px 10px 10px 10px;
+	font-family: Lato, "Segoe UI", Avenir, Ubuntu, Tahoma, Verdana, Helvetica, sans-serif;
+	position: relative;
+	
+}
+.messages ul li span{
+	margin-right: 25px;
+	background-color: #5fa2dd;
+	padding: 12.5px 10px 10px 10px;
+	margin-left: -20px;
+	border-radius:10px 0px 0px 10px;
+	font-family: Ubuntu, Tahoma, sans-serif;
+	font-size: 14px;
+	color: white;
+	letter-spacing: 1.5px;
+}
+.header{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	letter-spacing: 2px;
+	font-family: "Whitney SSm A", "Whitney SSm B", Lato, "Lucida Grande", "Lucida Sans Unicode", Tahoma, sans-serif;
+	color: white;
+}
+.online ul{
+	padding: 0px;
+}
+.online ul li{
+
+	margin-top: 15px;
+	list-style: none;
+	padding: 10px 10px 10px 20px;
+	border-bottom:0.5px solid grey;
+	text-transform: capitalize;
+	font-size: 20px;
+	font-family: "Whitney SSm A", "Whitney SSm B", Lato, "Lucida Grande", "Lucida Sans Unicode", Tahoma, sans-serif;
+
+}
+.online ul li span {
+	background: rgba(66, 183, 44, 1);
+    border-radius: 50%;
+    display: inline-block;
+    height: 10px;
+    margin-left: 4px;
+    width: 10px;
+    margin-right: 15px;
+}
+.join-alert{
+	position: absolute;
+	top:20px;
+	background-color: #337ab7;
+	padding: 5px 20px 5px 20px;
+	border-radius: 10px 10px 10px 10px;
+	color: white;
+	letter-spacing: 2px;
+	font-family: "Whitney SSm A", "Whitney SSm B", Lato, "Lucida Grande", "Lucida Sans Unicode", Tahoma, sans-serif;
+}
+.time{
+	font-size: 10px;
+	position: absolute;
+	left: 7%;
+
+
+}
+.sweet-overlay{
+	background-color: red !important;
+	
+}

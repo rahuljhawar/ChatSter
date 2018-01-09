@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ChatApp</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.0/sweetalert.min.css" />
+</head>
+<body>
+	<div class="container">
+		<div class="chatbox">
+			<div class="join-alert"></div>
+			
+			<div class="chatster">
+				<div class="header">
+					<h2>&#x2606; &#x2606; ChatSter &#x2606; &#x2606;</h2>
+
+				</div>
+				<div class="messages">
+					<center><p><em></em></p></center>
+					<ul>
+						
+					</ul>
+				</div>
+				<div class="controls">
+					<div class="message">
+						<input type="text" autocomplete="off" id="message">
+					
+					</div>
+					<div class="send">
+						<a><img src="http://verwys.weebly.com/uploads/3/7/1/8/37187761/submit-button-png-photos_1.png"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="users">
+			<div class="chathead">
+				<h3>Online Users</h3>
+			</div>
+			<div class="online">
+				<ul>
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script src="jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.0/sweetalert.min.js"></script>
+<script src="socket.io.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
+<script type="text/javascript">
+	//get the io instance
+	const socket=io();
+
+	//sweetalert prompt
+	swal({  
+
+	 title: "Username Required",   
+    text: "Enter your username:",   
+    type: "input",   
+    showCancelButton: false,   
+    closeOnConfirm: false,   
+    animation: "slide-from-top",   
+    inputPlaceholder: "Your Username" , 
+    customClass:"mySwal"},
+    
+    function(username){   
+        if (username === false) 
+        	return false;      
+           else if (username === "") {     
+            swal.showInputError("Please enter a username to continue!");     
+            return false;   
+            }  
+            else{
+            		//emit the new user to the server
+            		socket.emit('new user',username,(data)=>{
+            		if(data){
+          				swal.close();
+            		}else{
+            			 swal.showInputError("This username is already in use! Try another.");     
+            		}
+            	});
+            }    
+         }
+	
+
+	);
+	//hide the alert box initially
+	$(document).ready(function(){
+			$('.join-alert').hide();
+		
+	})
+
+	//listening to the broadcast event emitted by the server
+	socket.on('broadcast',(alert)=>{
+		console.log(alert);
+		$('.join-alert').text(`${alert.user}`).fadeIn();
+		setTimeout(function(){
+			$('.join-alert').fadeOut();
+		},2000);
+		
+
+	});
+
+	//on clicking the send button emit the message to the user
+	$('.send a').on('click',()=>{
+		console.log($('#message').val());
+		//emitting
+		socket.emit('send message',$('#message').val());
+		$('#message').val('');
+	});
+	//handle the enter keypress event 
+	$('#message').on('keypress',(e)=>{
+		const key=e.which;
+		if(key==13)// the enter key code
+		{
+			$('.send a').click();
+			return false;
+		}
+		
+	});
+	//On starting typing handle the keyup function and broadcast the typing event to the other users
+	$('#message').on('keyup',function(){
+		if($('#message').val()){
+			socket.emit('typing');
+		}
+
+	});
+	//load all the old msgs stored in mongodb database
+	socket.on('load old msgs',(msgs)=>{
+		console.log(msgs);
+		var html='';
+		if(msgs){
+			for(i=msgs.length-1;i>=0;i--){
+				html+='<li><span>'+msgs[i].user+'</span><em>'+msgs[i].msg+'</em></li><span class="time">'+moment(msgs[i].created).format('LT')+'</span>';
+			}
+			$('.messages ul').html(html);
+		}
+	});
+
+	//handle the typing event emitted by the server
+	socket.on('typing', (message)=>{
+		var setTime;
+    //clearing previous setTimeout function.
+    clearTimeout(setTime);
+    //showing typing message.
+    $('.messages center p em').text(message);
+    //showing typing message only for few seconds.
+    setTime = setTimeout(function(){
+    	$('.messages center p em').text("");
+    },3500);
+	}); //end of typing event.
+   
+	//handle the new message sent by the server
+	socket.on('new message', (message)=>{
+        $('.messages ul').append('<li><span>'+message.user+'</span><em>'+message.msg+'</em></li><span class="time">'+moment(message.created).format('LT')+'</span>');
+     });
+
+	//get the all users 
+	socket.on('get users',(users)=>{
+		console.log(users);
+		var html='';
+		for(i=0;i<users.length;i++){
+			html += '<li><span></span>'+users[i]+'</li>';
+		}
+		$('.online ul').html(html);
+	});
+
+
+</script>
+</html>
