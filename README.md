@@ -31,3 +31,8 @@ NodeJS
 2) Enter a username
 3) Start chatting with your friends
 4)If you refresh the website you will be logged out and to login again you will have to enter your username.
+### Deployment:
+- Application is deployed into AWS cloud.
+- Application is running on "Ubuntu 16.04".
+- Web-Server: Nginx
+- Database is hosted in "mLab"(Database Service Provider).
